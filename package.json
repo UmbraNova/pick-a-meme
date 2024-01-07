@@ -1,0 +1,7 @@
+{
+  "name": "pick-a-meme",
+  "dependencies": {},
+  "devDependencies": {
+    "vite": "latest"
+  }
+}
