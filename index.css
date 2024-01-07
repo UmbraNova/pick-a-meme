@@ -121,8 +121,8 @@ input[type="radio"]{
 }
 
 .get-image-btn{
-    background-color: #c65c81;
-    color: #eed6d3;
+    background-color: #ff4687;
+    color: #000000;
     padding: 15px 19px;
     font-size: 24px;
     border: none;
@@ -146,7 +146,7 @@ input[type="radio"]{
     border-radius: 10px;
     width: 420px;
     height: 490px;
-    background-color: #fff0ee;
+    background-color: #dddddd;
 }
 
 .cat-img{

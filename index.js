@@ -1,40 +1,59 @@
-import { catsData } from './data.js'
+import { catsData } from "./data.js"
 
-const emotionRadios = document.getElementById('emotion-radios')
-const getImageBtn = document.getElementById('get-image-btn')
-const gifsOnlyOption = document.getElementById('gifs-only-option')
-const memeModalInner = document.getElementById('meme-modal-inner')
-const memeModal = document.getElementById('meme-modal')
-const memeModalCloseBtn = document.getElementById('meme-modal-close-btn')
+const emotionRadios = document.getElementById("emotion-radios")
+const getImageBtn = document.getElementById("get-image-btn")
+const gifsOnlyOption = document.getElementById("gifs-only-option")
+const memeModalInner = document.getElementById("meme-modal-inner")
+const memeModal = document.getElementById("meme-modal")
 
-emotionRadios.addEventListener('change', highlightCheckedOption)
 
-memeModalCloseBtn.addEventListener('click', closeModal)
+emotionRadios.addEventListener("change", highlightCheckedOption)
 
-getImageBtn.addEventListener('click', renderCat)
+document.addEventListener("click", function(e) {
+    if (e.target.id=="meme-modal-close-btn") {
+        closeModal()
+    }
+
+    // const name for clarity
+    const outsideClick = !memeModal.contains(e.target)
+    if (outsideClick) {
+        closeModal()
+    }
+})
+
+getImageBtn.addEventListener("click", renderCat)
 
 function highlightCheckedOption(e){
-    const radios = document.getElementsByClassName('radio')
+    const radios = document.getElementsByClassName("radio")
     for (let radio of radios){
-        radio.classList.remove('highlight')
+        radio.classList.remove("highlight")
     }
-    document.getElementById(e.target.id).parentElement.classList.add('highlight')
+    document.getElementById(e.target.id).parentElement.classList.add("highlight")
 }
 
 function closeModal(){
-    memeModal.style.display = 'none'
+    memeModal.style.display = "none"
 }
 
 function renderCat(){
-    const catObject = getSingleCatObject()
-    memeModalInner.innerHTML =  `
+    if (checkIfEmotionIsSelected()) {
+        const catObject = getSingleCatObject()
+        memeModalInner.innerHTML =  `
         <img 
         class="cat-meme" 
         src="./images/${catObject.image}"
         alt="${catObject.alt}"
         >
         `
-    memeModal.style.display = 'flex'
+        memeModal.style.display = "flex"
+    }
+}
+
+function checkIfEmotionIsSelected() {
+    // console.log(document.querySelector("input[type='radio']:checked")!="")
+    // if (document.querySelector("input[type='radio']:checked")!="") {
+        return false
+    // }
 }
 
 function getSingleCatObject(){
@@ -50,8 +69,8 @@ function getSingleCatObject(){
 }
 
 function getMatchingCatsArray(){     
-    if(document.querySelector('input[type="radio"]:checked')){
-        const selectedEmotion = document.querySelector('input[type="radio"]:checked').value
+    if (document.querySelector("input[type='radio']:checked")) {
+        const selectedEmotion = document.querySelector("input[type='radio']:checked").value
         const isGif = gifsOnlyOption.checked
         
         const matchingCatsArray = catsData.filter(function(cat){
