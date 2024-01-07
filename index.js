@@ -19,11 +19,14 @@ document.addEventListener("click", function(e) {
     if (outsideClick) {
         closeModal()
     }
+
+    if (e.target.id=="get-image-btn") {
+        renderCat()
+    }
 })
 
-getImageBtn.addEventListener("click", renderCat)
-
 function highlightCheckedOption(e){
+    console.log(e.target.id)
     const radios = document.getElementsByClassName("radio")
     for (let radio of radios){
         radio.classList.remove("highlight")
@@ -36,29 +39,26 @@ function closeModal(){
 }
 
 function renderCat(){
-    if (checkIfEmotionIsSelected()) {
-        const catObject = getSingleCatObject()
-        memeModalInner.innerHTML =  `
-        <img 
-        class="cat-meme" 
-        src="./images/${catObject.image}"
-        alt="${catObject.alt}"
-        >
-        `
-        memeModal.style.display = "flex"
-    }
+
+    // add check if radio is checked func
+    changeButtonIfChecked()
+    const catObject = getSingleCatObject()
+    memeModalInner.innerHTML =  `
+    <img 
+    class="cat-meme" 
+    src="./images/${catObject.image}"
+    alt="${catObject.alt}"
+    >
+    `
+    memeModal.style.display = "flex"
 }
 
-function checkIfEmotionIsSelected() {
-    // console.log(document.querySelector("input[type='radio']:checked")!="")
-    // if (document.querySelector("input[type='radio']:checked")!="") {
-        return false
-    // }
+function changeButtonIfChecked() {
+    getImageBtn.style.backgroundColor = "#ff4687"
 }
 
 function getSingleCatObject(){
     const catsArray = getMatchingCatsArray()
-    
     if(catsArray.length === 1){
         return catsArray[0]
     }
@@ -68,7 +68,7 @@ function getSingleCatObject(){
     }
 }
 
-function getMatchingCatsArray(){     
+function getMatchingCatsArray(){
     if (document.querySelector("input[type='radio']:checked")) {
         const selectedEmotion = document.querySelector("input[type='radio']:checked").value
         const isGif = gifsOnlyOption.checked
@@ -83,7 +83,7 @@ function getMatchingCatsArray(){
             }            
         })
         return matchingCatsArray 
-    }  
+    }
 }
 
 function getEmotionsArray(cats){
