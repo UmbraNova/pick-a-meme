@@ -5,7 +5,7 @@ const getImageBtn = document.getElementById("get-image-btn")
 const gifsOnlyOption = document.getElementById("gifs-only-option")
 const memeModalInner = document.getElementById("meme-modal-inner")
 const memeModal = document.getElementById("meme-modal")
-
+let radioChecked = false
 
 emotionRadios.addEventListener("change", highlightCheckedOption)
 
@@ -26,36 +26,40 @@ document.addEventListener("click", function(e) {
 })
 
 function highlightCheckedOption(e){
-    console.log(e.target.id)
     const radios = document.getElementsByClassName("radio")
     for (let radio of radios){
         radio.classList.remove("highlight")
     }
     document.getElementById(e.target.id).parentElement.classList.add("highlight")
+    radioChecked = true
+    changeButtonColorIfChecked()
 }
+
 
 function closeModal(){
     memeModal.style.display = "none"
 }
 
-function renderCat(){
 
-    // add check if radio is checked func
-    changeButtonIfChecked()
-    const catObject = getSingleCatObject()
-    memeModalInner.innerHTML =  `
-    <img 
-    class="cat-meme" 
-    src="./images/${catObject.image}"
-    alt="${catObject.alt}"
-    >
-    `
-    memeModal.style.display = "flex"
+function renderCat(){
+    if (radioChecked) {
+        const catObject = getSingleCatObject()
+        memeModalInner.innerHTML =  `
+        <img 
+        class="cat-meme" 
+        src="./images/${catObject.image}"
+        alt="${catObject.alt}"
+        >
+        `
+        memeModal.style.display = "flex"
+    }
 }
 
-function changeButtonIfChecked() {
+
+function changeButtonColorIfChecked() {
     getImageBtn.style.backgroundColor = "#ff4687"
 }
+
 
 function getSingleCatObject(){
     const catsArray = getMatchingCatsArray()
@@ -67,6 +71,7 @@ function getSingleCatObject(){
         return catsArray[randomNumber]
     }
 }
+
 
 function getMatchingCatsArray(){
     if (document.querySelector("input[type='radio']:checked")) {
@@ -86,6 +91,7 @@ function getMatchingCatsArray(){
     }
 }
 
+
 function getEmotionsArray(cats){
     const emotionsArray = []    
     for (let cat of cats){
@@ -98,8 +104,8 @@ function getEmotionsArray(cats){
     return emotionsArray
 }
 
+
 function renderEmotionsRadios(cats){
-        
     let radioItems = ``
     const emotions = getEmotionsArray(cats)
     for (let emotion of emotions){
